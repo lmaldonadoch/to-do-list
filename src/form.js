@@ -11,7 +11,7 @@ const Form = (() => {
     titleDiv.classList.add('form-element-container');
 
     const titleLabel = document.createElement('label');
-    titleLabel = setAttribute('for', 'title');
+    titleLabel.setAttribute('for', 'title');
     titleLabel.classList.add('label');
     const titleInput = document.createElement('input');
     titleInput.setAttribute('type', 'text');
@@ -23,7 +23,7 @@ const Form = (() => {
     descriptionDiv.classList.add('form-element-container');
 
     const descriptionLabel = document.createElement('label');
-    descriptionLabel = setAttribute('for', 'description');
+    descriptionLabel.setAttribute('for', 'description');
     descriptionLabel.classList.add('label');
     const descriptionInput = document.createElement('input');
     descriptionInput.setAttribute('type', 'text');
@@ -35,7 +35,7 @@ const Form = (() => {
     dueDateDiv.classList.add('form-element-container');
 
     const dueDateLabel = document.createElement('label');
-    dueDateLabel = setAttribute('for', 'dueDate');
+    dueDateLabel.setAttribute('for', 'dueDate');
     dueDateLabel.classList.add('label');
     const dueDateInput = document.createElement('input');
     dueDateInput.setAttribute('type', 'date');
@@ -47,7 +47,7 @@ const Form = (() => {
     priorityDiv.classList.add('form-element-container');
 
     const priorityLabel = document.createElement('label');
-    priorityLabel = setAttribute('for', 'priority');
+    priorityLabel.setAttribute('for', 'priority');
     priorityLabel.classList.add('label');
     const priorityInput = document.createElement('input');
     priorityInput.setAttribute('type', 'number');
@@ -55,12 +55,7 @@ const Form = (() => {
 
     priorityDiv.append(priorityLabel, priorityInput);
 
-    const submit = document.createElement('button');
-    submit.setAttribute('type', 'submit');
-    submit.classList.add('form-button');
-    submit.onclick = addTodo();
-
-    form.append(titleDiv, descriptionDiv, dueDateDiv, priorityDiv, submit);
+    form.append(titleDiv, descriptionDiv, dueDateDiv, priorityDiv);
 
     container.appendChild(form);
   };
