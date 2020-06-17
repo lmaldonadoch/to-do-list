@@ -2,6 +2,7 @@ import _ from 'lodash';
 import './style.css';
 import Form from './form';
 import ToDo from './todo';
+import FormForProject from './formForProject';
 
 const Main = (() => {
   const component = () => {
@@ -11,7 +12,28 @@ const Main = (() => {
     addToDoButton.innerHTML = 'Add Todo';
     addToDoButton.onclick = renderForm;
 
+    const addProjectButton = document.createElement('button');
+    const divProject = document.getElementById('project');
+
+    addProjectButton.innerHTML = 'Add Project';
+    addProjectButton.onclick = formForProject;
+
+    divProject.appendChild(addProjectButton);
     div.appendChild(addToDoButton);
+  };
+
+  const formForProject = () => {
+    FormForProject.render();
+
+    const form = document.getElementById('project-form');
+
+    const submit = document.createElement('button');
+    submit.setAttribute('type', 'submit');
+    submit.classList.add('form-button');
+    submit.onclick = createToDo;
+    submit.innerHTML = 'Create To-Do';
+
+    form.appendChild(submit);
   };
 
   const renderForm = () => {
@@ -30,16 +52,12 @@ const Main = (() => {
 
   const createToDo = () => {
     const form = document.getElementById('todo-form');
-
     const toDo = new ToDo(
       form[0].value,
       form[1].value,
       form[2].value,
       form[3].value
     );
-
-    console.log(toDo);
-    hello;
   };
 
   return { component };
