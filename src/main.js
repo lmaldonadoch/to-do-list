@@ -3,6 +3,7 @@ import './style.css';
 import Form from './form';
 import ToDo from './todo';
 import FormForProject from './formForProject';
+import Project from './project';
 
 const Main = (() => {
   const component = () => {
@@ -23,6 +24,11 @@ const Main = (() => {
   };
 
   const formForProject = () => {
+    const validateForm = document.getElementById('project-form');
+    if (validateForm) {
+      validateForm.parentNode.removeChild(validateForm);
+    }
+
     FormForProject.render();
 
     const form = document.getElementById('project-form');
@@ -30,13 +36,23 @@ const Main = (() => {
     const submit = document.createElement('button');
     submit.setAttribute('type', 'submit');
     submit.classList.add('form-button');
-    submit.onclick = createToDo;
-    submit.innerHTML = 'Create To-Do';
+    submit.onclick = createProject;
+    submit.innerHTML = 'Create Project';
 
     form.appendChild(submit);
   };
 
+  const createProject = () => {
+    const form = document.getElementById('project-form');
+    const project = new Project(form[0].value);
+  };
+
   const renderForm = () => {
+    const validateForm = document.getElementById('todo-form');
+    if (validateForm) {
+      validateForm.parentNode.removeChild(validateForm);
+    }
+
     Form.render();
 
     const form = document.getElementById('todo-form');

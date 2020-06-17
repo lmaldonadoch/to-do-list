@@ -1,3 +1,11 @@
-.hello {
-  color: red;
+.container {
+  display: flex;
+}
+
+.project {
+  width: 30%;
+}
+
+.to-do {
+  width: 70%;
 }
