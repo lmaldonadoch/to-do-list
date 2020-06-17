@@ -1,13 +1,10 @@
 import _ from 'lodash';
 import './style.css';
+import Form from './form';
 
 function component() {
-  const element = document.createElement('div');
-
-  element.innerHTML = _.join(['Hello', 'world'], ' ');
-  element.classList.add('hello');
-
-  return element;
+  const addToDoButton = document.createElement('button');
+  addToDoButton;
 }
 
 document.body.appendChild(component());
