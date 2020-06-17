@@ -64,6 +64,7 @@ const Form = (() => {
 
     container.appendChild(form);
   };
-
   return { render };
 })();
+
+export default Form;

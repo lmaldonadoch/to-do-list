@@ -4,7 +4,14 @@ import Form from './form';
 
 function component() {
   const addToDoButton = document.createElement('button');
-  addToDoButton;
+  const div = document.getElementById('project-content');
+
+  addToDoButton.innerHTML = "Add Todo";
+  addToDoButton.onclick = Form.render;
+
+  div.appendChild(addToDoButton);
+
+  console.log(div);
 }
 
-document.body.appendChild(component());
+component();
