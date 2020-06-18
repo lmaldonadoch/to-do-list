@@ -1,4 +1,3 @@
-
 const FormForProject = (() => {
   const container = document.getElementById('project');
   const render = () => {
@@ -11,11 +10,10 @@ const FormForProject = (() => {
     const titleLabel = document.createElement('label');
     titleLabel.setAttribute('for', 'title');
     titleLabel.classList.add('label');
-    titleLabel.innerHTML = "Title";
+    titleLabel.innerHTML = 'Title';
     const titleInput = document.createElement('input');
     titleInput.setAttribute('type', 'text');
     titleInput.classList.add('title-input');
-    titleInput.required = true;
 
     titleDiv.append(titleLabel, titleInput);
 

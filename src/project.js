@@ -8,5 +8,8 @@ export default class Project {
     localStorage.setItem('projects', JSON.stringify(array));
   }
 
-  // saveToDo(toDo) {}
+  renderToDo() {
+    //renderizar el boton
+    //renderizar los todos
+  }
 }

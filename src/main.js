@@ -47,6 +47,19 @@ const Main = (() => {
     }
   };
 
+  const validateProject = () => {
+    const form = document.getElementById('project-form');
+    if (form[0].value === '') {
+      alert('Title must be filled out');
+      return false;
+    }
+    const project = new Project(form[0].value);
+
+    projects.push(project);
+    project.save(projects);
+    window.location.reload();
+  };
+
   const formForProject = () => {
     const validateForm = document.getElementById('project-form');
     if (validateForm) {
@@ -60,19 +73,10 @@ const Main = (() => {
     const submit = document.createElement('button');
     submit.setAttribute('type', 'submit');
     submit.classList.add('form-button');
-    submit.onclick = createProject;
+    submit.onclick = validateProject;
     submit.innerHTML = 'Create Project';
 
     form.appendChild(submit);
-  };
-
-  const createProject = () => {
-    const form = document.getElementById('project-form');
-    const project = new Project(form[0].value);
-    
-    projects.push(project);
-    project.save(projects);
-    window.location.reload();
   };
 
   const renderForm = () => {
