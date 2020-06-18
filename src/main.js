@@ -6,28 +6,29 @@ import FormForProject from './formForProject';
 import Project from './project';
 
 const Main = (() => {
+  //load localStorage
   let projects = JSON.parse(localStorage.getItem('projects'));
   if (projects == null) {
     projects = [];
   } else {
     let dummy = [...projects];
-    console.log(dummy);
     projects = [];
     for (let i = 0; i < dummy.length; i += 1) {
-      console.log('here');
+      console.log(dummy[i].toDo);
       projects.push(new Project(dummy[i].title, dummy[i].toDo));
     }
+    console.log(dummy);
+    console.log(projects);
   }
 
-  console.log(projects);
-  console.log(projects[0] instanceof Project);
+  //render base
 
   const component = () => {
-    const addToDoButton = document.createElement('button');
-    const div = document.getElementById('project-content');
+    // const addToDoButton = document.createElement('button');
+    // const div = document.getElementById('project-content');
 
-    addToDoButton.innerHTML = 'Add Todo';
-    addToDoButton.onclick = renderForm;
+    // addToDoButton.innerHTML = 'Add Todo';
+    // addToDoButton.onclick = renderForm;
 
     const addProjectButton = document.createElement('button');
     const divProject = document.getElementById('project');
@@ -36,7 +37,7 @@ const Main = (() => {
     addProjectButton.onclick = formForProject;
 
     divProject.appendChild(addProjectButton);
-    div.appendChild(addToDoButton);
+    // div.appendChild(addToDoButton);
 
     // Render projects
 
@@ -49,7 +50,6 @@ const Main = (() => {
         let link = document.createElement('a');
 
         link.onclick = () => {
-          console.log(projects[i]);
           renderToDo(projects[i]);
         };
         link.innerHTML = projects[i].title;
@@ -60,16 +60,30 @@ const Main = (() => {
     }
   };
 
+  // rendering to do from selected project + button
+
   const renderToDo = (project) => {
+    const addToDoButton = document.createElement('button');
+    const div = document.getElementById('project-content');
+
+    addToDoButton.innerHTML = 'Add Todo';
+    addToDoButton.onclick = () => {
+      renderForm(project);
+    };
+
+    div.appendChild(addToDoButton);
+
     const toDoDiv = document.getElementById('project-content');
     console.log(project);
-    project.toDo.push('one', 'two', 'three');
     project.toDo.forEach((e) => {
+      console.log(e);
       let link = document.createElement('a');
-      link.innerHTML = e;
+      link.innerHTML = e.title;
       toDoDiv.appendChild(link);
     });
   };
+
+  // validates project is filled out
 
   const validateProject = () => {
     const form = document.getElementById('project-form');
@@ -84,10 +98,38 @@ const Main = (() => {
     window.location.reload();
   };
 
+  // validates ToDo and creates a new one
+
+  const validateToDo = (project) => {
+    const form = document.getElementById('todo-form');
+    if (
+      form[0].value === '' ||
+      form[1].value === '' ||
+      form[2].value === '' ||
+      form[3].value === ''
+    ) {
+      alert('Form should be completely filled out.');
+      return false;
+    }
+    const toDo = new ToDo(
+      form[0].value,
+      form[1].value,
+      form[2].value,
+      form[3].value
+    );
+
+    project.toDo.push(toDo);
+    project.save(projects);
+    window.location.reload();
+  };
+
+  //renders project form
+
   const formForProject = () => {
     const validateForm = document.getElementById('project-form');
     if (validateForm) {
       validateForm.parentNode.removeChild(validateForm);
+      return false;
     }
 
     FormForProject.render();
@@ -103,10 +145,13 @@ const Main = (() => {
     form.appendChild(submit);
   };
 
-  const renderForm = () => {
+  // renders todo form
+
+  const renderForm = (project) => {
     const validateForm = document.getElementById('todo-form');
     if (validateForm) {
       validateForm.parentNode.removeChild(validateForm);
+      return false;
     }
 
     Form.render();
@@ -116,20 +161,12 @@ const Main = (() => {
     const submit = document.createElement('button');
     submit.setAttribute('type', 'submit');
     submit.classList.add('form-button');
-    submit.onclick = createToDo;
+    submit.onclick = () => {
+      validateToDo(project);
+    };
     submit.innerHTML = 'Create To-Do';
 
     form.appendChild(submit);
-  };
-
-  const createToDo = () => {
-    const form = document.getElementById('todo-form');
-    const toDo = new ToDo(
-      form[0].value,
-      form[1].value,
-      form[2].value,
-      form[3].value
-    );
   };
 
   return { component };

@@ -1,8 +1,8 @@
 import Form from './form';
 export default class Project {
-  constructor(title) {
+  constructor(title, toDo = []) {
     this.title = title;
-    this.toDo = [];
+    this.toDo = toDo;
   }
 
   save(array) {
