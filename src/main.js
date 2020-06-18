@@ -9,7 +9,7 @@ const Main = (() => {
   //load localStorage
   let projects = JSON.parse(localStorage.getItem('projects'));
   let lastProject = JSON.parse(localStorage.getItem('lastProject'));
-  
+
   if (projects == null) {
     projects = [];
   } else {
@@ -48,6 +48,14 @@ const Main = (() => {
         projectsDiv.appendChild(link);
       }
       divProject.appendChild(projectsDiv);
+
+      if (lastProject) {
+        let currentProject = projects.filter((project) => {
+          return project.title === lastProject;
+        });
+        console.log(currentProject);
+        renderToDo(currentProject[0]);
+      }
     }
   };
 
@@ -70,7 +78,9 @@ const Main = (() => {
       let toDoDiv = document.createElement('div');
       toDoDiv.setAttribute('id', `todo-div-${e.title.replace(/\s/g, '')}`);
       let link = document.createElement('a');
-      link.onclick = () => {toDoInfo(e)};
+      link.onclick = () => {
+        toDoInfo(e);
+      };
       link.innerHTML = e.title;
       toDoDiv.appendChild(link);
       div.appendChild(toDoDiv);
@@ -133,7 +143,7 @@ const Main = (() => {
 
     project.toDo.push(toDo);
     project.save(projects);
-    // window.location.reload();
+    saveLastProject(project);
   };
 
   //renders project form
@@ -180,6 +190,12 @@ const Main = (() => {
     submit.innerHTML = 'Create To-Do';
 
     form.appendChild(submit);
+  };
+
+  // save last project
+
+  const saveLastProject = (project) => {
+    localStorage.setItem('lastProject', JSON.stringify(project.title));
   };
 
   return { component };
