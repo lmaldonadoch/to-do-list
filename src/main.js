@@ -14,22 +14,13 @@ const Main = (() => {
     let dummy = [...projects];
     projects = [];
     for (let i = 0; i < dummy.length; i += 1) {
-      console.log(dummy[i].toDo);
       projects.push(new Project(dummy[i].title, dummy[i].toDo));
     }
-    console.log(dummy);
-    console.log(projects);
   }
 
   //render base
 
   const component = () => {
-    // const addToDoButton = document.createElement('button');
-    // const div = document.getElementById('project-content');
-
-    // addToDoButton.innerHTML = 'Add Todo';
-    // addToDoButton.onclick = renderForm;
-
     const addProjectButton = document.createElement('button');
     const divProject = document.getElementById('project');
 
@@ -37,7 +28,6 @@ const Main = (() => {
     addProjectButton.onclick = formForProject;
 
     divProject.appendChild(addProjectButton);
-    // div.appendChild(addToDoButton);
 
     // Render projects
 
@@ -74,7 +64,7 @@ const Main = (() => {
     div.appendChild(addToDoButton);
 
     const toDoDiv = document.getElementById('project-content');
-    console.log(project);
+    project.sortByPriority();
     project.toDo.forEach((e) => {
       console.log(e);
       let link = document.createElement('a');
@@ -95,7 +85,7 @@ const Main = (() => {
 
     projects.push(project);
     project.save(projects);
-    window.location.reload();
+    // window.location.reload();
   };
 
   // validates ToDo and creates a new one
@@ -120,7 +110,7 @@ const Main = (() => {
 
     project.toDo.push(toDo);
     project.save(projects);
-    window.location.reload();
+    // window.location.reload();
   };
 
   //renders project form

@@ -10,6 +10,13 @@ export default class Project {
   }
 
   addToDo(newToDo) {
-    this.todo.push(newToDo);
+    this.toDo.push(newToDo);
+  }
+
+  sortByPriority() {
+    this.toDo.sort((a, b) => {
+      console.log(a.priority, b.priority);
+      return a.priority - b.priority;
+    });
   }
 }
