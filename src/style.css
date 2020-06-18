@@ -6,7 +6,7 @@
   width: 30%;
 }
 
-.project-container {
+.projects-container {
   display: flex;
   flex-direction: column;
   margin: 0.5rem;

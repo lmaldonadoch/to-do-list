@@ -10,6 +10,9 @@ const Main = (() => {
   if (projects == null) {
     projects = [];
   }
+
+  console.log(projects);
+
   const component = () => {
     const addToDoButton = document.createElement('button');
     const div = document.getElementById('project-content');
@@ -33,7 +36,7 @@ const Main = (() => {
       projectsDiv.setAttribute('id', 'projects-container');
       projectsDiv.classList.add('projects-container');
 
-      for (let i = 0; i < projects.length - 1; i += 1) {
+      for (let i = 0; i <= projects.length - 1; i += 1) {
         let link = document.createElement('a');
         // We must crete the on click to show todos
         link.innerHTML = projects[i].title;
@@ -66,8 +69,10 @@ const Main = (() => {
   const createProject = () => {
     const form = document.getElementById('project-form');
     const project = new Project(form[0].value);
+    
     projects.push(project);
     project.save(projects);
+    window.location.reload();
   };
 
   const renderForm = () => {
