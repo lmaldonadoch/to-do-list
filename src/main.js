@@ -94,14 +94,28 @@ const Main = (() => {
       `todo-div-${toDo.title.replace(/\s/g, '')}`
     );
 
+    const testElem = document.getElementsByClassName(
+      `${toDo.title.replace(/\s/g, '')}`
+    );
+    console.log(testElem);
+    if (testElem.length > 0) {
+      [...testElem].forEach((elem) => {
+        elem.parentNode.removeChild(elem);
+      });
+      return false;
+    }
+
     const descriptionPar = document.createElement('p');
     descriptionPar.innerHTML = `Description: ${toDo.description}`;
+    descriptionPar.classList.add(`${toDo.title.replace(/\s/g, '')}`);
 
     const dueDatePar = document.createElement('p');
     dueDatePar.innerHTML = `Date: ${toDo.dueDate.toString()}`;
+    dueDatePar.classList.add(`${toDo.title.replace(/\s/g, '')}`);
 
     const priorityPar = document.createElement('p');
     priorityPar.innerHTML = `Priority: ${toDo.priority}`;
+    priorityPar.classList.add(`${toDo.title.replace(/\s/g, '')}`);
 
     div.append(descriptionPar, dueDatePar, priorityPar);
   };
