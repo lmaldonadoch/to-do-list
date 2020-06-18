@@ -8,6 +8,8 @@ import Project from './project';
 const Main = (() => {
   //load localStorage
   let projects = JSON.parse(localStorage.getItem('projects'));
+  let lastProject = JSON.parse(localStorage.getItem('lastProject'));
+  
   if (projects == null) {
     projects = [];
   } else {
@@ -19,7 +21,6 @@ const Main = (() => {
   }
 
   //render base
-
   const component = () => {
     const addProjectButton = document.createElement('button');
     const divProject = document.getElementById('project');
@@ -69,7 +70,7 @@ const Main = (() => {
       let toDoDiv = document.createElement('div');
       toDoDiv.setAttribute('id', `todo-div-${e.title.replace(/\s/g, '')}`);
       let link = document.createElement('a');
-      link.onclick = toDoInfo(e);
+      link.onclick = () => {toDoInfo(e)};
       link.innerHTML = e.title;
       toDoDiv.appendChild(link);
       div.appendChild(toDoDiv);
@@ -84,13 +85,13 @@ const Main = (() => {
     );
 
     const descriptionPar = document.createElement('p');
-    descriptionPar.innerHTML = toDo.description;
+    descriptionPar.innerHTML = `Description: ${toDo.description}`;
 
     const dueDatePar = document.createElement('p');
-    dueDatePar.innerHTML = toDo.dueDate.toString();
+    dueDatePar.innerHTML = `Date: ${toDo.dueDate.toString()}`;
 
     const priorityPar = document.createElement('p');
-    priorityPar.innerHTML = toDo.priority;
+    priorityPar.innerHTML = `Priority: ${toDo.priority}`;
 
     div.append(descriptionPar, dueDatePar, priorityPar);
   };
