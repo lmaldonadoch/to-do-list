@@ -6,6 +6,10 @@ import FormForProject from './formForProject';
 import Project from './project';
 
 const Main = (() => {
+  let projects = JSON.parse(localStorage.getItem('projects'));
+  if (projects == null) {
+    projects = [];
+  }
   const component = () => {
     const addToDoButton = document.createElement('button');
     const div = document.getElementById('project-content');
@@ -21,6 +25,23 @@ const Main = (() => {
 
     divProject.appendChild(addProjectButton);
     div.appendChild(addToDoButton);
+
+    // Render projects
+
+    if (projects != null) {
+      const projectsDiv = document.createElement('div');
+      projectsDiv.setAttribute('id', 'projects-container');
+      projectsDiv.classList.add('projects-container');
+
+      for (let i = 0; i < projects.length - 1; i += 1) {
+        let link = document.createElement('a');
+        // We must crete the on click to show todos
+        link.innerHTML = projects[i].title;
+
+        projectsDiv.appendChild(link);
+      }
+      divProject.appendChild(projectsDiv);
+    }
   };
 
   const formForProject = () => {
@@ -45,6 +66,8 @@ const Main = (() => {
   const createProject = () => {
     const form = document.getElementById('project-form');
     const project = new Project(form[0].value);
+    projects.push(project);
+    project.save(projects);
   };
 
   const renderForm = () => {
