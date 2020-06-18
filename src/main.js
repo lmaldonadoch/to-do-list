@@ -9,9 +9,18 @@ const Main = (() => {
   let projects = JSON.parse(localStorage.getItem('projects'));
   if (projects == null) {
     projects = [];
+  } else {
+    let dummy = [...projects];
+    console.log(dummy);
+    projects = [];
+    for (let i = 0; i < dummy.length; i += 1) {
+      console.log('here');
+      projects.push(new Project(dummy[i].title, dummy[i].toDo));
+    }
   }
 
   console.log(projects);
+  console.log(projects[0] instanceof Project);
 
   const component = () => {
     const addToDoButton = document.createElement('button');
@@ -39,13 +48,27 @@ const Main = (() => {
       for (let i = 0; i <= projects.length - 1; i += 1) {
         let link = document.createElement('a');
 
-        link.onclick = projects[i].render();
+        link.onclick = () => {
+          console.log(projects[i]);
+          renderToDo(projects[i]);
+        };
         link.innerHTML = projects[i].title;
 
         projectsDiv.appendChild(link);
       }
       divProject.appendChild(projectsDiv);
     }
+  };
+
+  const renderToDo = (project) => {
+    const toDoDiv = document.getElementById('project-content');
+    console.log(project);
+    project.toDo.push('one', 'two', 'three');
+    project.toDo.forEach((e) => {
+      let link = document.createElement('a');
+      link.innerHTML = e;
+      toDoDiv.appendChild(link);
+    });
   };
 
   const validateProject = () => {
