@@ -38,7 +38,7 @@ const Main = (() => {
 
       for (let i = 0; i <= projects.length - 1; i += 1) {
         let link = document.createElement('a');
-        // We must crete the on click to show todos
+        link.onclick = projects[i].renderToDo();
         link.innerHTML = projects[i].title;
 
         projectsDiv.appendChild(link);

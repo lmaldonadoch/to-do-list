@@ -11,5 +11,7 @@ export default class Project {
   renderToDo() {
     //renderizar el boton
     //renderizar los todos
+    console.log('here');
+    hello;
   }
 }
