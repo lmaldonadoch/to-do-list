@@ -15,7 +15,6 @@ export default class Project {
 
   sortByPriority() {
     this.toDo.sort((a, b) => {
-      console.log(a.priority, b.priority);
       return a.priority - b.priority;
     });
   }

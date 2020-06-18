@@ -53,8 +53,9 @@ const Main = (() => {
   // rendering to do from selected project + button
 
   const renderToDo = (project) => {
-    const addToDoButton = document.createElement('button');
     const div = document.getElementById('project-content');
+    div.innerHTML = '';
+    const addToDoButton = document.createElement('button');
 
     addToDoButton.innerHTML = 'Add Todo';
     addToDoButton.onclick = () => {
@@ -63,14 +64,35 @@ const Main = (() => {
 
     div.appendChild(addToDoButton);
 
-    const toDoDiv = document.getElementById('project-content');
     project.sortByPriority();
     project.toDo.forEach((e) => {
-      console.log(e);
+      let toDoDiv = document.createElement('div');
+      toDoDiv.setAttribute('id', `todo-div-${e.title.replace(/\s/g, '')}`);
       let link = document.createElement('a');
+      link.onclick = toDoInfo(e);
       link.innerHTML = e.title;
       toDoDiv.appendChild(link);
+      div.appendChild(toDoDiv);
     });
+  };
+
+  // render todo info on click
+
+  const toDoInfo = (toDo) => {
+    const div = document.getElementById(
+      `todo-div-${toDo.title.replace(/\s/g, '')}`
+    );
+
+    const descriptionPar = document.createElement('p');
+    descriptionPar.innerHTML = toDo.description;
+
+    const dueDatePar = document.createElement('p');
+    dueDatePar.innerHTML = toDo.dueDate.toString();
+
+    const priorityPar = document.createElement('p');
+    priorityPar.innerHTML = toDo.priority;
+
+    div.append(descriptionPar, dueDatePar, priorityPar);
   };
 
   // validates project is filled out
