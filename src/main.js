@@ -10,13 +10,18 @@ const Main = (() => {
   let projects = JSON.parse(localStorage.getItem('projects'));
   let lastProject = JSON.parse(localStorage.getItem('lastProject'));
 
+
   if (projects == null) {
     projects = [];
   } else {
     let dummy = [...projects];
     projects = [];
     for (let i = 0; i < dummy.length; i += 1) {
-      projects.push(new Project(dummy[i].title, dummy[i].toDo));
+      let timmy = [];
+      dummy[i].toDo.forEach(todo => {
+        timmy.push(new ToDo(todo.title, todo.description, todo.dueDate, todo.priority, todo.check));
+      });
+      projects.push(new Project(dummy[i].title, timmy));
     }
   }
 
@@ -53,7 +58,6 @@ const Main = (() => {
         let currentProject = projects.filter((project) => {
           return project.title === lastProject;
         });
-        console.log(currentProject);
         renderToDo(currentProject[0]);
       }
     }
@@ -78,11 +82,27 @@ const Main = (() => {
       let toDoDiv = document.createElement('div');
       toDoDiv.setAttribute('id', `todo-div-${e.title.replace(/\s/g, '')}`);
       let link = document.createElement('a');
+      let wrapper = document.createElement('div');
+      let checkBox = document.createElement('button');
+
+      checkBox.onclick = () => {
+        e.checkOn();
+        project.save(projects);
+
+      }
       link.onclick = () => {
         toDoInfo(e);
       };
+
+      if(e.check == true ){
+        checkBox.innerHTML = "Reset Task";
+      } else {
+        checkBox.innerHTML = "Complete Task";
+      }
+
       link.innerHTML = e.title;
-      toDoDiv.appendChild(link);
+      wrapper.append(link, checkBox);
+      toDoDiv.appendChild(wrapper);
       div.appendChild(toDoDiv);
     });
   };
@@ -97,7 +117,6 @@ const Main = (() => {
     const testElem = document.getElementsByClassName(
       `${toDo.title.replace(/\s/g, '')}`
     );
-    console.log(testElem);
     if (testElem.length > 0) {
       [...testElem].forEach((elem) => {
         elem.parentNode.removeChild(elem);
@@ -117,7 +136,11 @@ const Main = (() => {
     priorityPar.innerHTML = `Priority: ${toDo.priority}`;
     priorityPar.classList.add(`${toDo.title.replace(/\s/g, '')}`);
 
-    div.append(descriptionPar, dueDatePar, priorityPar);
+    const checkPar = document.createElement('p');
+    checkPar.innerHTML = `Check: ${toDo.check}`;
+    checkPar.classList.add(`${toDo.title.replace(/\s/g, '')}`);
+
+    div.append(descriptionPar, dueDatePar, priorityPar, checkPar);
   };
 
   // validates project is filled out

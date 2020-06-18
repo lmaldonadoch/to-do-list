@@ -6,4 +6,14 @@ export default class ToDo {
     this.priority = priority;
     this.check = false;
   }
+
+  checkOn() {
+    if(this.check === false ) {
+      this.check = true;
+    } else {
+      this.check = false;
+    }
+
+    console.log("check on clicked");
+  }
 }
