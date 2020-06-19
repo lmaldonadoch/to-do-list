@@ -47,6 +47,7 @@ const Main = (() => {
 
     addProjectButton.innerHTML = 'Add Project';
     addProjectButton.onclick = formForProject;
+    addProjectButton.classList.add('add-project-button');
 
     divProject.appendChild(addProjectButton);
 
@@ -64,6 +65,7 @@ const Main = (() => {
           renderToDo(projects[i]);
         };
         link.innerHTML = projects[i].title;
+        link.classList.add('project-link');
 
         projectsDiv.appendChild(link);
       }
@@ -88,7 +90,10 @@ const Main = (() => {
     buttonsContainer.classList.add('buttons-container');
 
     const addToDoButton = document.createElement('button');
-    addToDoButton.innerHTML = 'Add Todo';
+    const plusSign = document.createElement('i');
+    plusSign.classList.add('fas', 'fa-plus');
+    addToDoButton.innerHTML =
+      '<i class="fa fas-plus" aria-hidden="true"></i> Add new To Do';
     addToDoButton.onclick = () => {
       renderForm(project);
     };
@@ -235,7 +240,7 @@ const Main = (() => {
       toDo.priority = form[3].value;
     }
 
-    if(newToDo) {
+    if (newToDo) {
       project.toDo.push(newToDo);
     }
 
