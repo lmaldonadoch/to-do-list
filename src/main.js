@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import './style.css';
 import Form from './form';
 import ToDo from './todo';
@@ -6,17 +5,17 @@ import FormForProject from './formForProject';
 import Project from './project';
 
 const Main = (() => {
-  //load localStorage
+  // load localStorage
   let projects = JSON.parse(localStorage.getItem('projects'));
   let lastProject = JSON.parse(localStorage.getItem('lastProject'));
 
   if (projects == null || projects.length === 0) {
     projects = [new Project('Your first project', [])];
   } else {
-    let dummy = [...projects];
+    const dummy = [...projects];
     projects = [];
     for (let i = 0; i < dummy.length; i += 1) {
-      let timmy = [];
+      const timmy = [];
       dummy[i].toDo.forEach((todo) => {
         timmy.push(
           new ToDo(
@@ -24,8 +23,8 @@ const Main = (() => {
             todo.description,
             todo.dueDate,
             todo.priority,
-            todo.check
-          )
+            todo.check,
+          ),
         );
       });
       projects.push(new Project(dummy[i].title, timmy));
@@ -33,51 +32,162 @@ const Main = (() => {
   }
 
   if (
-    projects.filter((project) => {
-      return project.title === lastProject;
-    }).length === 0
+    projects.filter((project) => project.title === lastProject).length === 0
   ) {
     lastProject = projects[0].title;
   }
 
-  //render base
-  const component = () => {
-    const addProjectButton = document.createElement('button');
-    const divProject = document.getElementById('project');
+  // save last project
 
-    addProjectButton.innerHTML = 'Add Project';
-    addProjectButton.onclick = formForProject;
-    addProjectButton.classList.add('add-project-button');
+  const saveLastProject = (project) => {
+    localStorage.setItem('lastProject', JSON.stringify(project.title));
+  };
 
-    divProject.appendChild(addProjectButton);
+  // validates project is filled out
 
-    // Render projects
-
-    if (projects != null) {
-      const projectsDiv = document.createElement('div');
-      projectsDiv.setAttribute('id', 'projects-container');
-      projectsDiv.classList.add('projects-container');
-
-      for (let i = 0; i <= projects.length - 1; i += 1) {
-        let link = document.createElement('a');
-
-        link.onclick = () => {
-          renderToDo(projects[i]);
-        };
-        link.innerHTML = projects[i].title;
-        link.classList.add('project-link');
-
-        projectsDiv.appendChild(link);
-      }
-      divProject.appendChild(projectsDiv);
-
-      if (lastProject) {
-        let currentProject = projects.filter((project) => {
-          return project.title === lastProject;
-        });
-        renderToDo(currentProject[0]);
-      }
+  const validateProject = () => {
+    const form = document.getElementById('project-form');
+    if (form[0].value === '') {
+      return alert('Title must be filled out'); // eslint-disable-line no-alert
     }
+    const project = new Project(form[0].value);
+
+    projects.push(project);
+    return project.save(projects);
+  };
+
+  // validates ToDo and creates a new one
+
+  const validateToDo = (project = null, toDo = null) => {
+    const form = document.getElementById('todo-form');
+    if (
+      form[0].value === ''
+      || form[1].value === ''
+      || form[2].value === ''
+      || form[3].value === ''
+    ) {
+      return alert('Form should be completely filled out.'); // eslint-disable-line no-alert
+    }
+
+    let newToDo = null;
+
+    if (toDo === null) {
+      newToDo = new ToDo(
+        form[0].value,
+        form[1].value,
+        form[2].value,
+        form[3].value,
+      );
+    } else {
+      toDo.title = form[0].value;
+      toDo.description = form[1].value;
+      toDo.dueDate = form[2].value;
+      toDo.priority = form[3].value;
+    }
+
+    if (newToDo) {
+      project.toDo.push(newToDo);
+    }
+
+    project.save(projects);
+    return saveLastProject(project);
+  };
+
+  // renders todo form
+
+  const renderForm = (project = null, toDo = null) => {
+    const validateForm = document.getElementById('todo-form');
+    if (validateForm) {
+      validateForm.parentNode.removeChild(validateForm);
+      return false;
+    }
+
+    Form.render();
+
+    const form = document.getElementById('todo-form');
+
+    const submit = document.createElement('button');
+    submit.setAttribute('type', 'submit');
+    submit.classList.add('form-button');
+    submit.onclick = () => validateToDo(project, toDo);
+    if (toDo === null) {
+      submit.innerHTML = 'Create Task';
+    } else {
+      submit.innerHTML = 'Save Changes';
+    }
+
+    return form.appendChild(submit);
+  };
+
+  // render todo info on click
+
+  const toDoInfo = (toDo, project) => {
+    const div = document.getElementById(
+      `todo-div-${toDo.title.replace(/\s/g, '')}`,
+    );
+
+    const testElem = document.getElementsByClassName(
+      `${toDo.title.replace(/\s/g, '')}`,
+    );
+    if (testElem.length > 0) {
+      [...testElem].forEach((elem) => {
+        elem.parentNode.removeChild(elem);
+      });
+      return false;
+    }
+
+    const descriptionPar = document.createElement('p');
+    descriptionPar.innerHTML = `${toDo.description}`;
+    descriptionPar.classList.add(`${toDo.title.replace(/\s/g, '')}`);
+
+    const dueDatePar = document.createElement('p');
+    dueDatePar.innerHTML = `<i class="fas fa-calendar"></i> ${toDo.dueDate.toString()}`;
+    dueDatePar.classList.add(`${toDo.title.replace(/\s/g, '')}`);
+
+    const priorityCheck = document.createElement('div');
+    priorityCheck.classList.add(
+      'priority-check-container',
+      `${toDo.title.replace(/\s/g, '')}`,
+    );
+
+    const priorityPar = document.createElement('p');
+    priorityPar.innerHTML = `Priority: ${toDo.priority}`;
+    priorityPar.classList.add(`${toDo.title.replace(/\s/g, '')}`);
+
+    const checkPar = document.createElement('p');
+    if (toDo.check === true) {
+      checkPar.innerHTML = 'Task Completed';
+    } else {
+      checkPar.innerHTML = 'Task Pending';
+    }
+
+    checkPar.classList.add(`${toDo.title.replace(/\s/g, '')}`);
+
+    priorityCheck.append(priorityPar, checkPar);
+
+    const todoButtons = document.createElement('div');
+    todoButtons.classList.add('todoButtons');
+
+    const deleteButton = document.createElement('button');
+    deleteButton.innerHTML = 'Delete Task';
+    deleteButton.classList.add(`${toDo.title.replace(/\s/g, '')}`);
+    deleteButton.onclick = () => {
+      project.removeToDo(toDo);
+      project.save(projects);
+      window.location.reload();
+    };
+
+    const editButton = document.createElement('button');
+    editButton.innerHTML = 'Edit Task';
+    editButton.classList.add(`${toDo.title.replace(/\s/g, '')}`);
+
+    editButton.onclick = () => {
+      renderForm(project, toDo);
+    };
+
+    todoButtons.append(editButton, deleteButton);
+
+    return div.append(descriptionPar, dueDatePar, priorityCheck, todoButtons);
   };
 
   // rendering to do from selected project + button
@@ -107,12 +217,12 @@ const Main = (() => {
 
     project.sortByPriority();
     project.toDo.forEach((e) => {
-      let toDoDiv = document.createElement('div');
+      const toDoDiv = document.createElement('div');
       toDoDiv.setAttribute('id', `todo-div-${e.title.replace(/\s/g, '')}`);
       toDoDiv.classList.add('to-do-container');
-      let link = document.createElement('a');
-      let wrapper = document.createElement('div');
-      let checkBox = document.createElement('button');
+      const link = document.createElement('a');
+      const wrapper = document.createElement('div');
+      const checkBox = document.createElement('button');
       checkBox.classList.add('checkbutton');
       checkBox.onclick = () => {
         e.checkOn();
@@ -139,137 +249,7 @@ const Main = (() => {
     });
   };
 
-  // render todo info on click
-
-  const toDoInfo = (toDo, project) => {
-    const div = document.getElementById(
-      `todo-div-${toDo.title.replace(/\s/g, '')}`
-    );
-
-    const testElem = document.getElementsByClassName(
-      `${toDo.title.replace(/\s/g, '')}`
-    );
-    if (testElem.length > 0) {
-      [...testElem].forEach((elem) => {
-        elem.parentNode.removeChild(elem);
-      });
-      return false;
-    }
-
-    const descriptionPar = document.createElement('p');
-    descriptionPar.innerHTML = `${toDo.description}`;
-    descriptionPar.classList.add(`${toDo.title.replace(/\s/g, '')}`);
-
-    const dueDatePar = document.createElement('p');
-    dueDatePar.innerHTML = `<i class="fas fa-calendar"></i> ${toDo.dueDate.toString()}`;
-    dueDatePar.classList.add(`${toDo.title.replace(/\s/g, '')}`);
-
-    const priorityCheck = document.createElement('div');
-    priorityCheck.classList.add(
-      'priority-check-container',
-      `${toDo.title.replace(/\s/g, '')}`
-    );
-
-    const priorityPar = document.createElement('p');
-    priorityPar.innerHTML = `Priority: ${toDo.priority}`;
-    priorityPar.classList.add(`${toDo.title.replace(/\s/g, '')}`);
-
-    const checkPar = document.createElement('p');
-    if(toDo.check === true){
-      checkPar.innerHTML = "Task Completed";
-    } else {
-      checkPar.innerHTML = "Task Pending";
-    }
-
-
-    checkPar.classList.add(`${toDo.title.replace(/\s/g, '')}`);
-
-    priorityCheck.append(priorityPar, checkPar);
-
-    const todoButtons = document.createElement('div');
-    todoButtons.classList.add('todoButtons');
-
-    const deleteButton = document.createElement('button');
-    deleteButton.innerHTML = 'Delete Task';
-    deleteButton.classList.add(`${toDo.title.replace(/\s/g, '')}`);
-    deleteButton.onclick = () => {
-      project.removeToDo(toDo);
-      project.save(projects);
-      window.location.reload();
-    };
-
-    const editButton = document.createElement('button');
-    editButton.innerHTML = 'Edit Task';
-    editButton.classList.add(`${toDo.title.replace(/\s/g, '')}`);
-
-    editButton.onclick = () => {
-      renderForm(project, toDo);
-    };
-
-    todoButtons.append(
-      editButton,
-      deleteButton
-    );
-
-    div.append(
-      descriptionPar,
-      dueDatePar,
-      priorityCheck,
-      todoButtons
-    );
-  };
-
-  // validates project is filled out
-
-  const validateProject = () => {
-    const form = document.getElementById('project-form');
-    if (form[0].value === '') {
-      alert('Title must be filled out');
-      return false;
-    }
-    const project = new Project(form[0].value);
-
-    projects.push(project);
-    project.save(projects);
-  };
-
-  // validates ToDo and creates a new one
-
-  const validateToDo = (project = null, toDo = null) => {
-    const form = document.getElementById('todo-form');
-    if (
-      form[0].value === '' ||
-      form[1].value === '' ||
-      form[2].value === '' ||
-      form[3].value === ''
-    ) {
-      alert('Form should be completely filled out.');
-      return false;
-    }
-
-    if (toDo === null) {
-      var newToDo = new ToDo(
-        form[0].value,
-        form[1].value,
-        form[2].value,
-        form[3].value
-      );
-    } else {
-      toDo.title = form[0].value;
-      toDo.description = form[1].value;
-      toDo.dueDate = form[2].value;
-      toDo.priority = form[3].value;
-    }
-
-    if (newToDo) {
-      project.toDo.push(newToDo);
-    }
-
-    project.save(projects);
-    saveLastProject(project);
-  };
-
-  //renders project form
+  // renders project form
 
   const formForProject = () => {
     const validateForm = document.getElementById('project-form');
@@ -288,41 +268,47 @@ const Main = (() => {
     submit.onclick = validateProject;
     submit.innerHTML = 'Create Project';
 
-    form.appendChild(submit);
+    return form.appendChild(submit);
   };
 
-  // renders todo form
+  // render base
+  const component = () => {
+    const addProjectButton = document.createElement('button');
+    const divProject = document.getElementById('project');
 
-  const renderForm = (project = null, toDo = null) => {
-    const validateForm = document.getElementById('todo-form');
-    if (validateForm) {
-      validateForm.parentNode.removeChild(validateForm);
-      return false;
+    addProjectButton.innerHTML = 'Add Project';
+    addProjectButton.onclick = formForProject;
+    addProjectButton.classList.add('add-project-button');
+
+    divProject.appendChild(addProjectButton);
+
+    // Render projects
+
+    if (projects != null) {
+      const projectsDiv = document.createElement('div');
+      projectsDiv.setAttribute('id', 'projects-container');
+      projectsDiv.classList.add('projects-container');
+
+      for (let i = 0; i <= projects.length - 1; i += 1) {
+        const link = document.createElement('a');
+
+        link.onclick = () => {
+          renderToDo(projects[i]);
+        };
+        link.innerHTML = projects[i].title;
+        link.classList.add('project-link');
+
+        projectsDiv.appendChild(link);
+      }
+      divProject.appendChild(projectsDiv);
+
+      if (lastProject) {
+        const currentProject = projects.filter(
+          (project) => project.title === lastProject,
+        );
+        renderToDo(currentProject[0]);
+      }
     }
-
-    Form.render();
-
-    const form = document.getElementById('todo-form');
-
-    const submit = document.createElement('button');
-    submit.setAttribute('type', 'submit');
-    submit.classList.add('form-button');
-    submit.onclick = () => {
-      validateToDo(project, toDo);
-    };
-    if (toDo === null) {
-      submit.innerHTML = 'Create Task';
-    } else {
-      submit.innerHTML = 'Save Changes';
-    }
-
-    form.appendChild(submit);
-  };
-
-  // save last project
-
-  const saveLastProject = (project) => {
-    localStorage.setItem('lastProject', JSON.stringify(project.title));
   };
 
   return { component };
