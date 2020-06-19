@@ -23,8 +23,8 @@ const Main = (() => {
             todo.description,
             todo.dueDate,
             todo.priority,
-            todo.check
-          )
+            todo.check,
+          ),
         );
       });
       projects.push(new Project(dummy[i].title, timmy));
@@ -61,10 +61,10 @@ const Main = (() => {
   const validateToDo = (project = null, toDo = null) => {
     const form = document.getElementById('todo-form');
     if (
-      form[0].value === '' ||
-      form[1].value === '' ||
-      form[2].value === '' ||
-      form[3].value === ''
+      form[0].value === ''
+      || form[1].value === ''
+      || form[2].value === ''
+      || form[3].value === ''
     ) {
       return alert('Form should be completely filled out.'); // eslint-disable-line no-alert
     }
@@ -76,7 +76,7 @@ const Main = (() => {
         form[0].value,
         form[1].value,
         form[2].value,
-        form[3].value
+        form[3].value,
       );
     } else {
       toDo.title = form[0].value;
@@ -122,12 +122,10 @@ const Main = (() => {
   // render todo info on click
 
   const toDoInfo = (toDo, project) => {
-    const div = document.getElementById(
-      `todo-div-${toDo.title.replace(/\s/g, '')}`
-    );
+    const div = document.getElementById(`todo-div-${toDo.title.replace(/\s/g, '')}`);
 
     const testElem = document.getElementsByClassName(
-      `${toDo.title.replace(/\s/g, '')}`
+      `${toDo.title.replace(/\s/g, '')}`,
     );
     if (testElem.length > 0) {
       [...testElem].forEach((elem) => {
@@ -147,7 +145,7 @@ const Main = (() => {
     const priorityCheck = document.createElement('div');
     priorityCheck.classList.add(
       'priority-check-container',
-      `${toDo.title.replace(/\s/g, '')}`
+      `${toDo.title.replace(/\s/g, '')}`,
     );
 
     const priorityPar = document.createElement('p');
@@ -304,7 +302,7 @@ const Main = (() => {
 
       if (lastProject) {
         const currentProject = projects.filter(
-          (project) => project.title === lastProject
+          (project) => project.title === lastProject,
         );
         renderToDo(currentProject[0]);
       }
