@@ -65,6 +65,7 @@ p {
   border-radius: 100%;
   border: transparent;
 }
+
 .green {
   padding: 2px 4px;
   color: white;
@@ -118,7 +119,6 @@ p {
 }
 
 /*Here we should style form*/
-
 input[type='text'],
 input[type='date'],
 input[type='number'],
