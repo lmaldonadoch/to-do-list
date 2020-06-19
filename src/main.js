@@ -180,7 +180,7 @@ const Main = (() => {
     editButton.classList.add(`${toDo.title.replace(/\s/g, '')}`);
 
     editButton.onclick = () => {
-      renderForm(null, toDo);
+      renderForm(project, toDo);
     };
 
     div.append(
@@ -222,7 +222,7 @@ const Main = (() => {
     }
 
     if (toDo === null) {
-      const toDo = new ToDo(
+      var newToDo = new ToDo(
         form[0].value,
         form[1].value,
         form[2].value,
@@ -235,7 +235,10 @@ const Main = (() => {
       toDo.priority = form[3].value;
     }
 
-    project.toDo.push(toDo);
+    if(newToDo) {
+      project.toDo.push(newToDo);
+    }
+
     project.save(projects);
     saveLastProject(project);
   };
