@@ -10,16 +10,23 @@ const Main = (() => {
   let projects = JSON.parse(localStorage.getItem('projects'));
   let lastProject = JSON.parse(localStorage.getItem('lastProject'));
 
-
   if (projects == null) {
-    projects = [];
+    projects = [new Project('Your first project', [])];
   } else {
     let dummy = [...projects];
     projects = [];
     for (let i = 0; i < dummy.length; i += 1) {
       let timmy = [];
-      dummy[i].toDo.forEach(todo => {
-        timmy.push(new ToDo(todo.title, todo.description, todo.dueDate, todo.priority, todo.check));
+      dummy[i].toDo.forEach((todo) => {
+        timmy.push(
+          new ToDo(
+            todo.title,
+            todo.description,
+            todo.dueDate,
+            todo.priority,
+            todo.check
+          )
+        );
       });
       projects.push(new Project(dummy[i].title, timmy));
     }
@@ -85,19 +92,21 @@ const Main = (() => {
       let wrapper = document.createElement('div');
       let checkBox = document.createElement('button');
 
+      checkBox.setAttribute('type', 'submit');
+
       checkBox.onclick = () => {
         e.checkOn();
         project.save(projects);
-
-      }
-      link.onclick = () => {
-        toDoInfo(e);
+        window.location.reload();
       };
 
-      if(e.check == true ){
-        checkBox.innerHTML = "Reset Task";
+      link.onclick = () => {
+        toDoInfo(e, project);
+      };
+      if (e.check == true) {
+        checkBox.innerHTML = 'Reset Task';
       } else {
-        checkBox.innerHTML = "Complete Task";
+        checkBox.innerHTML = 'Complete Task';
       }
 
       link.innerHTML = e.title;
@@ -109,7 +118,7 @@ const Main = (() => {
 
   // render todo info on click
 
-  const toDoInfo = (toDo) => {
+  const toDoInfo = (toDo, project) => {
     const div = document.getElementById(
       `todo-div-${toDo.title.replace(/\s/g, '')}`
     );
@@ -140,7 +149,14 @@ const Main = (() => {
     checkPar.innerHTML = `Check: ${toDo.check}`;
     checkPar.classList.add(`${toDo.title.replace(/\s/g, '')}`);
 
-    div.append(descriptionPar, dueDatePar, priorityPar, checkPar);
+    const deleteButton = document.createElement('button');
+    deleteButton.innerHTML = 'Delete Todo';
+    deleteButton.classList.add(`${toDo.title.replace(/\s/g, '')}`);
+    deleteButton.onclick = () => {
+      project.removeToDo();
+    };
+
+    div.append(descriptionPar, dueDatePar, priorityPar, checkPar, deleteButton);
   };
 
   // validates project is filled out
