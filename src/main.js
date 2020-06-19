@@ -90,8 +90,7 @@ const Main = (() => {
     buttonsContainer.classList.add('buttons-container');
 
     const addToDoButton = document.createElement('button');
-    addToDoButton.innerHTML =
-      '<i class="fas fa-plus"></i> Add Task';
+    addToDoButton.innerHTML = '<i class="fas fa-plus"></i> Add Task';
     addToDoButton.onclick = () => {
       renderForm(project);
     };
@@ -110,10 +109,11 @@ const Main = (() => {
     project.toDo.forEach((e) => {
       let toDoDiv = document.createElement('div');
       toDoDiv.setAttribute('id', `todo-div-${e.title.replace(/\s/g, '')}`);
+      toDoDiv.classList.add('to-do-container');
       let link = document.createElement('a');
       let wrapper = document.createElement('div');
       let checkBox = document.createElement('button');
-      checkBox.classList.add("checkbutton");
+      checkBox.classList.add('checkbutton');
       checkBox.onclick = () => {
         e.checkOn();
         project.save(projects);
@@ -125,14 +125,15 @@ const Main = (() => {
       };
       if (e.check == true) {
         checkBox.innerHTML = '<i class="fas fa-times"></i>';
-        checkBox.classList.add("red");
+        checkBox.classList.add('red');
       } else {
         checkBox.innerHTML = '<i class="fas fa-check"></i>';
-        checkBox.classList.add("green");
+        checkBox.classList.add('green');
       }
 
       link.innerHTML = e.title;
-      wrapper.append(link, checkBox);
+      wrapper.append(checkBox, link);
+      wrapper.classList.add('whopper');
       toDoDiv.appendChild(wrapper);
       div.appendChild(toDoDiv);
     });
@@ -156,20 +157,28 @@ const Main = (() => {
     }
 
     const descriptionPar = document.createElement('p');
-    descriptionPar.innerHTML = `Description: ${toDo.description}`;
+    descriptionPar.innerHTML = `${toDo.description}`;
     descriptionPar.classList.add(`${toDo.title.replace(/\s/g, '')}`);
 
     const dueDatePar = document.createElement('p');
-    dueDatePar.innerHTML = `Date: ${toDo.dueDate.toString()}`;
+    dueDatePar.innerHTML = `<i class="fas fa-calendar"></i> ${toDo.dueDate.toString()}`;
     dueDatePar.classList.add(`${toDo.title.replace(/\s/g, '')}`);
+
+    const priorityCheck = document.createElement('div');
+    priorityCheck.classList.add(
+      'priority-check-container',
+      `${toDo.title.replace(/\s/g, '')}`
+    );
 
     const priorityPar = document.createElement('p');
     priorityPar.innerHTML = `Priority: ${toDo.priority}`;
     priorityPar.classList.add(`${toDo.title.replace(/\s/g, '')}`);
 
     const checkPar = document.createElement('p');
-    checkPar.innerHTML = `Check: ${toDo.check}`;
+    checkPar.innerHTML = `Task Completed: ${toDo.check}`;
     checkPar.classList.add(`${toDo.title.replace(/\s/g, '')}`);
+
+    priorityCheck.append(priorityPar, checkPar);
 
     const deleteButton = document.createElement('button');
     deleteButton.innerHTML = 'Delete Todo';
@@ -191,8 +200,7 @@ const Main = (() => {
     div.append(
       descriptionPar,
       dueDatePar,
-      priorityPar,
-      checkPar,
+      priorityCheck,
       deleteButton,
       editButton
     );

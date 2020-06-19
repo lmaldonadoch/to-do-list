@@ -2,11 +2,15 @@ body {
   display: flex;
   justify-content: center;
   font-family: sans-serif;
-  color: #505E79;
+  color: #505e79;
 }
 
 a {
   cursor: pointer;
+}
+
+p {
+  text-align: justify;
 }
 
 .container {
@@ -51,23 +55,35 @@ a {
   background: #fff;
 }
 
+.buttons-container {
+  padding: 1.1rem;
+  display: flex;
+  justify-content: space-around;
+}
+
 .checkbutton {
   border-radius: 100%;
-  padding: 2px 6px;
   border: transparent;
 }
 .green {
+  padding: 2px 4px;
   color: white;
-  background: #09b946;
+  background: #1eb971;
 }
 
 .red {
+  padding: 2px 6px;
   color: white;
-  background: #D62F0F;
+  background: #e94f30;
 }
 
 .checkbutton {
-  margin-left: 6px;
+  margin-right: 1rem;
+}
+
+.whopper {
+  display: flex;
+  align-items: center;
 }
 
 .to-do > button {
@@ -78,10 +94,56 @@ a {
   border: transparent;
   background: white;
   font-weight: bold;
-  color: #70A3E6;
+  color: #70a3e6;
 }
 
 .buttons-container > button > i {
-  color: #505E79;
+  color: #505e79;
   margin-right: 6px;
+}
+
+.to-do-container {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
+}
+
+.to-do-container > div > a {
+  font-size: 1.5rem;
+}
+
+.priority-check-container {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+/*Here we should style form*/
+
+input[type='text'],
+input[type='date'],
+input[type='number'],
+textarea {
+  padding: 0;
+  height: 30px;
+  position: relative;
+  left: 0;
+  outline: none;
+  border: 1px solid #cdcdcd;
+  border-color: rgba(0, 0, 0, 0.15);
+  background-color: white;
+  font-size: 16px;
+  color: #505e79;
+  width: 100%;
+}
+
+.description-input {
+  min-height: 5rem;
+  margin-right: -4px;
+  resize: none;
+}
+
+.form-element-container {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1.1rem;
 }

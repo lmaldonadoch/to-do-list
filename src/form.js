@@ -11,7 +11,7 @@ const Form = (() => {
     const titleLabel = document.createElement('label');
     titleLabel.setAttribute('for', 'title');
     titleLabel.classList.add('label');
-    titleLabel.innerHTML = "Title";
+    titleLabel.innerHTML = 'Title';
     const titleInput = document.createElement('input');
     titleInput.setAttribute('type', 'text');
     titleInput.classList.add('title-input');
@@ -24,8 +24,8 @@ const Form = (() => {
     const descriptionLabel = document.createElement('label');
     descriptionLabel.setAttribute('for', 'description');
     descriptionLabel.classList.add('label');
-    descriptionLabel.innerHTML = "Description";
-    const descriptionInput = document.createElement('input');
+    descriptionLabel.innerHTML = 'Description';
+    const descriptionInput = document.createElement('textarea');
     descriptionInput.setAttribute('type', 'text');
     descriptionInput.classList.add('description-input');
 
@@ -37,7 +37,7 @@ const Form = (() => {
     const dueDateLabel = document.createElement('label');
     dueDateLabel.setAttribute('for', 'dueDate');
     dueDateLabel.classList.add('label');
-    dueDateLabel.innerHTML = "Due date";
+    dueDateLabel.innerHTML = 'Due date';
     const dueDateInput = document.createElement('input');
     dueDateInput.setAttribute('type', 'date');
     dueDateInput.classList.add('dueDate-input');
@@ -50,7 +50,7 @@ const Form = (() => {
     const priorityLabel = document.createElement('label');
     priorityLabel.setAttribute('for', 'priority');
     priorityLabel.classList.add('label');
-    priorityLabel.innerHTML = "Priority";
+    priorityLabel.innerHTML = 'Priority';
     const priorityInput = document.createElement('input');
     priorityInput.setAttribute('type', 'number');
     priorityInput.classList.add('priority-input');
