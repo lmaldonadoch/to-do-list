@@ -1,6 +1,8 @@
 body {
   display: flex;
   justify-content: center;
+  font-family: sans-serif;
+  color: #505E79;
 }
 
 a {
@@ -49,6 +51,37 @@ a {
   background: #fff;
 }
 
+.checkbutton {
+  border-radius: 100%;
+  padding: 2px 6px;
+  border: transparent;
+}
+.green {
+  color: white;
+  background: #09b946;
+}
+
+.red {
+  color: white;
+  background: #D62F0F;
+}
+
+.checkbutton {
+  margin-left: 6px;
+}
+
 .to-do > button {
   width: 14%;
+}
+
+.buttons-container > button {
+  border: transparent;
+  background: white;
+  font-weight: bold;
+  color: #70A3E6;
+}
+
+.buttons-container > button > i {
+  color: #505E79;
+  margin-right: 6px;
 }

@@ -90,16 +90,14 @@ const Main = (() => {
     buttonsContainer.classList.add('buttons-container');
 
     const addToDoButton = document.createElement('button');
-    const plusSign = document.createElement('i');
-    plusSign.classList.add('fas', 'fa-plus');
     addToDoButton.innerHTML =
-      '<i class="fa fas-plus" aria-hidden="true"></i> Add new To Do';
+      '<i class="fas fa-plus"></i> Add Task';
     addToDoButton.onclick = () => {
       renderForm(project);
     };
 
     const deleteProject = document.createElement('button');
-    deleteProject.innerHTML = 'Delete Project';
+    deleteProject.innerHTML = '<i class="fas fa-minus"></i> Delete Project';
     deleteProject.onclick = () => {
       project.deleteProject(projects);
       window.location.reload();
@@ -115,7 +113,7 @@ const Main = (() => {
       let link = document.createElement('a');
       let wrapper = document.createElement('div');
       let checkBox = document.createElement('button');
-
+      checkBox.classList.add("checkbutton");
       checkBox.onclick = () => {
         e.checkOn();
         project.save(projects);
@@ -126,9 +124,11 @@ const Main = (() => {
         toDoInfo(e, project);
       };
       if (e.check == true) {
-        checkBox.innerHTML = 'Reset Task';
+        checkBox.innerHTML = '<i class="fas fa-times"></i>';
+        checkBox.classList.add("red");
       } else {
-        checkBox.innerHTML = 'Complete Task';
+        checkBox.innerHTML = '<i class="fas fa-check"></i>';
+        checkBox.classList.add("green");
       }
 
       link.innerHTML = e.title;
