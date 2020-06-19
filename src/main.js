@@ -123,7 +123,7 @@ const Main = (() => {
       link.onclick = () => {
         toDoInfo(e, project);
       };
-      if (e.check == true) {
+      if (e.check === false) {
         checkBox.innerHTML = '<i class="fas fa-times"></i>';
         checkBox.classList.add('red');
       } else {
@@ -175,13 +175,22 @@ const Main = (() => {
     priorityPar.classList.add(`${toDo.title.replace(/\s/g, '')}`);
 
     const checkPar = document.createElement('p');
-    checkPar.innerHTML = `Task Completed: ${toDo.check}`;
+    if(toDo.check === true){
+      checkPar.innerHTML = "Task Completed";
+    } else {
+      checkPar.innerHTML = "Task Pending";
+    }
+
+
     checkPar.classList.add(`${toDo.title.replace(/\s/g, '')}`);
 
     priorityCheck.append(priorityPar, checkPar);
 
+    const todoButtons = document.createElement('div');
+    todoButtons.classList.add('todoButtons');
+
     const deleteButton = document.createElement('button');
-    deleteButton.innerHTML = 'Delete Todo';
+    deleteButton.innerHTML = 'Delete Task';
     deleteButton.classList.add(`${toDo.title.replace(/\s/g, '')}`);
     deleteButton.onclick = () => {
       project.removeToDo(toDo);
@@ -190,19 +199,23 @@ const Main = (() => {
     };
 
     const editButton = document.createElement('button');
-    editButton.innerHTML = 'Edit Todo';
+    editButton.innerHTML = 'Edit Task';
     editButton.classList.add(`${toDo.title.replace(/\s/g, '')}`);
 
     editButton.onclick = () => {
       renderForm(project, toDo);
     };
 
+    todoButtons.append(
+      editButton,
+      deleteButton
+    );
+
     div.append(
       descriptionPar,
       dueDatePar,
       priorityCheck,
-      deleteButton,
-      editButton
+      todoButtons
     );
   };
 

@@ -147,3 +147,17 @@ textarea {
   flex-direction: column;
   margin-bottom: 1.1rem;
 }
+
+.todoButtons {
+  display: flex;
+}
+
+.todoButtons > button {
+  width: 100%;
+  border: 1px solid rgb(225, 224, 229);
+  font-weight: bold;
+  color: #70a3e6;
+  padding: 0.5rem;
+  border-radius: 5px;
+  background: none;
+}
