@@ -35,7 +35,7 @@ Open `index.html` in your web browser
 
 ## Demo
 
-[Hosted on Githack ](https://rawcdn.githack.com/lmaldonadoch/to-do-list/c1e484f897374b687f9920a070600780499b6089/dist/index.html)
+[Hosted on Githack ](https://rawcdn.githack.com/lmaldonadoch/to-do-list/bdcb8e1ffddcc44cbdf103c330cec42ed0067a80/dist/index.html)
 
 ## Screenshot
 
