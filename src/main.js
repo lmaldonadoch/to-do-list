@@ -311,9 +311,9 @@ const Main = (() => {
       validateToDo(project, toDo);
     };
     if (toDo === null) {
-      submit.innerHTML = 'Create To-Do';
+      submit.innerHTML = 'Create Task';
     } else {
-      submit.innerHTML = 'Save changes';
+      submit.innerHTML = 'Save Changes';
     }
 
     form.appendChild(submit);

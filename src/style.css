@@ -152,7 +152,8 @@ textarea {
   display: flex;
 }
 
-.todoButtons > button {
+.todoButtons > button,
+.form-button {
   width: 100%;
   border: 1px solid rgb(225, 224, 229);
   font-weight: bold;
