@@ -75,14 +75,21 @@ const Main = (() => {
   const renderToDo = (project) => {
     const div = document.getElementById('project-content');
     div.innerHTML = '';
-    const addToDoButton = document.createElement('button');
 
+    const addToDoButton = document.createElement('button');
     addToDoButton.innerHTML = 'Add Todo';
     addToDoButton.onclick = () => {
       renderForm(project);
     };
 
-    div.appendChild(addToDoButton);
+    const deleteProject = document.createElement('button');
+    deleteProject.innerHTML = 'Delete Project';
+    deleteProject.onclick = () => {
+      project.deleteProject(projects);;
+      window.location.reload();
+    };
+
+    div.append(addToDoButton, deleteProject);
 
     project.sortByPriority();
     project.toDo.forEach((e) => {
@@ -153,7 +160,9 @@ const Main = (() => {
     deleteButton.innerHTML = 'Delete Todo';
     deleteButton.classList.add(`${toDo.title.replace(/\s/g, '')}`);
     deleteButton.onclick = () => {
-      project.removeToDo();
+      project.removeToDo(toDo);
+      project.save(projects);
+      window.location.reload();
     };
 
     div.append(descriptionPar, dueDatePar, priorityPar, checkPar, deleteButton);
@@ -171,7 +180,6 @@ const Main = (() => {
 
     projects.push(project);
     project.save(projects);
-    // window.location.reload();
   };
 
   // validates ToDo and creates a new one

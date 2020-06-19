@@ -11,7 +11,7 @@ export default class Project {
 
   removeToDo(toDo) {
     const newProject = _.remove(this.toDo, function (n) {
-      return toDo.title === n.title;
+      return toDo === n;
     });
     return newProject;
   }
@@ -24,5 +24,13 @@ export default class Project {
     this.toDo.sort((a, b) => {
       return a.priority - b.priority;
     });
+  }
+
+  deleteProject(projects){
+    const newProjects = projects.filter(project => {
+      return project !== this;
+    });
+    this.save(newProjects);
+    return newProjects;
   }
 }
