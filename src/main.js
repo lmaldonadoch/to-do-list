@@ -10,7 +10,7 @@ const Main = (() => {
   let projects = JSON.parse(localStorage.getItem('projects'));
   let lastProject = JSON.parse(localStorage.getItem('lastProject'));
 
-  if (projects == null) {
+  if (projects == null || projects.length === 0) {
     projects = [new Project('Your first project', [])];
   } else {
     let dummy = [...projects];
@@ -30,6 +30,14 @@ const Main = (() => {
       });
       projects.push(new Project(dummy[i].title, timmy));
     }
+  }
+
+  if (
+    projects.filter((project) => {
+      return project.title === lastProject;
+    }).length === 0
+  ) {
+    lastProject = projects[0].title;
   }
 
   //render base
@@ -76,6 +84,9 @@ const Main = (() => {
     const div = document.getElementById('project-content');
     div.innerHTML = '';
 
+    const buttonsContainer = document.createElement('div');
+    buttonsContainer.classList.add('buttons-container');
+
     const addToDoButton = document.createElement('button');
     addToDoButton.innerHTML = 'Add Todo';
     addToDoButton.onclick = () => {
@@ -85,11 +96,12 @@ const Main = (() => {
     const deleteProject = document.createElement('button');
     deleteProject.innerHTML = 'Delete Project';
     deleteProject.onclick = () => {
-      project.deleteProject(projects);;
+      project.deleteProject(projects);
       window.location.reload();
     };
 
-    div.append(addToDoButton, deleteProject);
+    buttonsContainer.append(addToDoButton, deleteProject);
+    div.appendChild(buttonsContainer);
 
     project.sortByPriority();
     project.toDo.forEach((e) => {
@@ -98,8 +110,6 @@ const Main = (() => {
       let link = document.createElement('a');
       let wrapper = document.createElement('div');
       let checkBox = document.createElement('button');
-
-      checkBox.setAttribute('type', 'submit');
 
       checkBox.onclick = () => {
         e.checkOn();
@@ -165,7 +175,22 @@ const Main = (() => {
       window.location.reload();
     };
 
-    div.append(descriptionPar, dueDatePar, priorityPar, checkPar, deleteButton);
+    const editButton = document.createElement('button');
+    editButton.innerHTML = 'Edit Todo';
+    editButton.classList.add(`${toDo.title.replace(/\s/g, '')}`);
+
+    editButton.onclick = () => {
+      renderForm(null, toDo);
+    };
+
+    div.append(
+      descriptionPar,
+      dueDatePar,
+      priorityPar,
+      checkPar,
+      deleteButton,
+      editButton
+    );
   };
 
   // validates project is filled out
@@ -184,7 +209,7 @@ const Main = (() => {
 
   // validates ToDo and creates a new one
 
-  const validateToDo = (project) => {
+  const validateToDo = (project = null, toDo = null) => {
     const form = document.getElementById('todo-form');
     if (
       form[0].value === '' ||
@@ -195,12 +220,20 @@ const Main = (() => {
       alert('Form should be completely filled out.');
       return false;
     }
-    const toDo = new ToDo(
-      form[0].value,
-      form[1].value,
-      form[2].value,
-      form[3].value
-    );
+
+    if (toDo === null) {
+      const toDo = new ToDo(
+        form[0].value,
+        form[1].value,
+        form[2].value,
+        form[3].value
+      );
+    } else {
+      toDo.title = form[0].value;
+      toDo.description = form[1].value;
+      toDo.dueDate = form[2].value;
+      toDo.priority = form[3].value;
+    }
 
     project.toDo.push(toDo);
     project.save(projects);
@@ -231,7 +264,7 @@ const Main = (() => {
 
   // renders todo form
 
-  const renderForm = (project) => {
+  const renderForm = (project = null, toDo = null) => {
     const validateForm = document.getElementById('todo-form');
     if (validateForm) {
       validateForm.parentNode.removeChild(validateForm);
@@ -246,9 +279,13 @@ const Main = (() => {
     submit.setAttribute('type', 'submit');
     submit.classList.add('form-button');
     submit.onclick = () => {
-      validateToDo(project);
+      validateToDo(project, toDo);
     };
-    submit.innerHTML = 'Create To-Do';
+    if (toDo === null) {
+      submit.innerHTML = 'Create To-Do';
+    } else {
+      submit.innerHTML = 'Save changes';
+    }
 
     form.appendChild(submit);
   };
