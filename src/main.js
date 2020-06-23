@@ -102,10 +102,10 @@ const Main = (() => {
     if (toDo === null) {
       submit.innerHTML = 'Create Task';
     } else {
-      form[0].value = toDo.title
-      form[1].value = toDo.description
-      form[2].value = toDo.dueDate
-      form[3].value = toDo.priority
+      form[0].value = toDo.title;
+      form[1].value = toDo.description;
+      form[2].value = toDo.dueDate;
+      form[3].value = toDo.priority;
       submit.innerHTML = 'Save Changes';
     }
 
@@ -286,7 +286,7 @@ const Main = (() => {
         link.onclick = () => {
           const linksList = document.getElementsByClassName('project-link');
           [...linksList].forEach(eachLink => {
-            eachLink.classList.remove('active')
+            eachLink.classList.remove('active');
           });
 
           link.classList.add('active');
