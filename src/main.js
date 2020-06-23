@@ -47,9 +47,6 @@ const Main = (() => {
 
   const validateProject = () => {
     const form = document.getElementById('project-form');
-    if (form[0].value === '') {
-      return alert('Title must be filled out'); // eslint-disable-line no-alert
-    }
     const project = new Project(form[0].value);
 
     projects.push(project);
@@ -60,14 +57,6 @@ const Main = (() => {
 
   const validateToDo = (project = null, toDo = null) => {
     const form = document.getElementById('todo-form');
-    if (
-      form[0].value === ''
-      || form[1].value === ''
-      || form[2].value === ''
-      || form[3].value === ''
-    ) {
-      return alert('Form should be completely filled out.'); // eslint-disable-line no-alert
-    }
 
     let newToDo = null;
 
@@ -113,6 +102,10 @@ const Main = (() => {
     if (toDo === null) {
       submit.innerHTML = 'Create Task';
     } else {
+      form[0].value = toDo.title
+      form[1].value = toDo.description
+      form[2].value = toDo.dueDate
+      form[3].value = toDo.priority
       submit.innerHTML = 'Save Changes';
     }
 
@@ -291,6 +284,13 @@ const Main = (() => {
         const link = document.createElement('a');
 
         link.onclick = () => {
+          const linksList = document.getElementsByClassName('project-link');
+          [...linksList].forEach(eachLink => {
+            eachLink.classList.remove('active')
+          });
+
+          link.classList.add('active');
+
           renderToDo(projects[i]);
         };
         link.innerHTML = projects[i].title;

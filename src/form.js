@@ -15,6 +15,8 @@ const Form = (() => {
     const titleInput = document.createElement('input');
     titleInput.setAttribute('type', 'text');
     titleInput.classList.add('title-input');
+    titleInput.required = true;
+
 
     titleDiv.append(titleLabel, titleInput);
 
@@ -28,6 +30,7 @@ const Form = (() => {
     const descriptionInput = document.createElement('textarea');
     descriptionInput.setAttribute('type', 'text');
     descriptionInput.classList.add('description-input');
+    descriptionInput.required = true;
 
     descriptionDiv.append(descriptionLabel, descriptionInput);
 
@@ -41,6 +44,7 @@ const Form = (() => {
     const dueDateInput = document.createElement('input');
     dueDateInput.setAttribute('type', 'date');
     dueDateInput.classList.add('dueDate-input');
+    dueDateInput.required = true;
 
     dueDateDiv.append(dueDateLabel, dueDateInput);
 
@@ -54,6 +58,7 @@ const Form = (() => {
     const priorityInput = document.createElement('input');
     priorityInput.setAttribute('type', 'number');
     priorityInput.classList.add('priority-input');
+    priorityInput.required = true;
 
     priorityDiv.append(priorityLabel, priorityInput);
 

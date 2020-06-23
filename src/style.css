@@ -22,6 +22,10 @@ p {
   min-height: 100vh;
 }
 
+.active {
+  color: rgb(112, 163, 230);
+}
+
 .project {
   width: 30%;
   background: #fafcfe;

@@ -14,6 +14,7 @@ const FormForProject = (() => {
     const titleInput = document.createElement('input');
     titleInput.setAttribute('type', 'text');
     titleInput.classList.add('title-input');
+    titleInput.required = true;
 
     titleDiv.append(titleLabel, titleInput);
 
