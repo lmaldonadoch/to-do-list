@@ -23,8 +23,8 @@ const Main = (() => {
             todo.description,
             todo.dueDate,
             todo.priority,
-            todo.check,
-          ),
+            todo.check
+          )
         );
       });
       projects.push(new Project(dummy[i].title, timmy));
@@ -61,12 +61,19 @@ const Main = (() => {
     let newToDo = null;
 
     if (toDo === null) {
-      newToDo = new ToDo(
-        form[0].value,
-        form[1].value,
-        form[2].value,
-        form[3].value,
-      );
+      if (
+        form[0].checkValidity() &&
+        form[1].checkValidity() &&
+        form[2].checkValidity() &&
+        form[3].checkValidity()
+      ) {
+        newToDo = new ToDo(
+          form[0].value,
+          form[1].value,
+          form[2].value,
+          form[3].value
+        );
+      }
     } else {
       toDo.title = form[0].value;
       toDo.description = form[1].value;
@@ -115,10 +122,12 @@ const Main = (() => {
   // render todo info on click
 
   const toDoInfo = (toDo, project) => {
-    const div = document.getElementById(`todo-div-${toDo.title.replace(/\s/g, '')}`);
+    const div = document.getElementById(
+      `todo-div-${toDo.title.replace(/\s/g, '')}`
+    );
 
     const testElem = document.getElementsByClassName(
-      `${toDo.title.replace(/\s/g, '')}`,
+      `${toDo.title.replace(/\s/g, '')}`
     );
     if (testElem.length > 0) {
       [...testElem].forEach((elem) => {
@@ -138,7 +147,7 @@ const Main = (() => {
     const priorityCheck = document.createElement('div');
     priorityCheck.classList.add(
       'priority-check-container',
-      `${toDo.title.replace(/\s/g, '')}`,
+      `${toDo.title.replace(/\s/g, '')}`
     );
 
     const priorityPar = document.createElement('p');
@@ -285,7 +294,7 @@ const Main = (() => {
 
         link.onclick = () => {
           const linksList = document.getElementsByClassName('project-link');
-          [...linksList].forEach(eachLink => {
+          [...linksList].forEach((eachLink) => {
             eachLink.classList.remove('active');
           });
 
@@ -302,7 +311,7 @@ const Main = (() => {
 
       if (lastProject) {
         const currentProject = projects.filter(
-          (project) => project.title === lastProject,
+          (project) => project.title === lastProject
         );
         renderToDo(currentProject[0]);
       }
